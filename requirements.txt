@@ -4,3 +4,4 @@ pydantic
 pymongo 
 datetime
 pyfcm 
+uvicorn
