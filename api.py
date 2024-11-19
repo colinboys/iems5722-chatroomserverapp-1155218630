@@ -5,6 +5,8 @@ from fastapi.encoders import jsonable_encoder
 from pymongo import MongoClient
 from datetime import datetime
 from pyfcm import FCMNotification
+import uvicorn
+from datetime import date
 
 fcm = FCMNotification(service_account_file="service_account_file.json", project_id = "chatroom-4cb12")
 
@@ -36,6 +38,13 @@ class SendMessage(BaseModel):
     user_id: int
     name: str
     message: str
+
+
+@app.get("/demo/")
+async def get_demo(a: int = 0, b: int = 0, status_code=200):
+  sum = a+b
+  data = {"sum": sum, "date": date.today()}
+  return JSONResponse(content=jsonable_encoder(data))
 
 # define a route, binding a function to a URL (e.g. GET method) of the server
 @app.get("/hello")
@@ -199,5 +208,5 @@ async def send_message(message: SendMessage):
 
 # 启动 Uvicorn 服务
 if __name__ == "__main__":
-    import uvicorn
+
     uvicorn.run(app, host="0.0.0.0", port=55722)
